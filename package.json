@@ -1,0 +1,19 @@
+{
+  "name": "x-cell-sum",
+  "version": "1.0.0",
+  "description": "Small Spreadsheet Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codepadma/x-cell-sum.git"
+  },
+  "author": "padma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codepadma/x-cell-sum/issues"
+  },
+  "homepage": "https://github.com/codepadma/x-cell-sum#readme"
+}
