@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/codepadma/x-cell-sum/issues"
   },
-  "homepage": "https://github.com/codepadma/x-cell-sum#readme"
+  "homepage": "https://github.com/codepadma/x-cell-sum#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
 }
