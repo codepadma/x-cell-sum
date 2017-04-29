@@ -22,9 +22,9 @@ class TableView {
 
   renderTableHeader() {
     removeChildren(this.headerRowEle);
-    getLetterRange('A', 10)
+    getLetterRange('A', this.model.numOfCols)
       .map(colLabel => createTH(colLabel))
-      .forEach(th => this.headerRowEle.append(th));
+      .forEach(th => this.headerRowEle.appendChild(th));
   }
 }
 
