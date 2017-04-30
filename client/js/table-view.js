@@ -33,7 +33,9 @@ class TableView {
     for(let row = 0; row < this.model.numOfRows; row++) {
       const tr = createTR();
       for(let col = 0; col < this.model.numOfCols; col++) {
-        const td = createTD();
+        const position = {col:col, row:row};
+        const value = this.model.getValue(position);
+        const td = createTD(value);
         tr.appendChild(td);
       }
       docFragment.appendChild(tr);

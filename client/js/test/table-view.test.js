@@ -27,4 +27,33 @@ describe('table-view', () => {
   	  expect(colLabels).toEqual(['A', 'B', 'C', 'D', 'E']);
   });
   });	
+
+  describe('table-body', () => {
+    it('has the right number of columns', () => {
+      //set-up initial state
+      const numOfCols = 6;
+      const numOfRows = 10;
+      const model = new TableModel(numOfCols, numOfRows);
+      const view = new TableView(model);
+      view.init();
+      // inspect initial state
+  	  let ths = document.querySelectorAll('THEAD TH');
+  	  expect(ths.length).toBe(numOfCols);
+    });
+
+    it('fills in values from the model', () => {
+      //set-up initial state
+      const numOfCols = 6;
+      const numOfRows = 10;
+      const model = new TableModel(numOfCols, numOfRows);
+      const view = new TableView(model);
+      model.setValue({ col:3, row:2 }, '45');
+      view.init();
+
+      //inspect the initial state
+      const trs = document.querySelectorAll('TBODY TR');
+      expect(trs[2].cells[3].textContent).toBe('45');
+    });
+  });
+
 });
