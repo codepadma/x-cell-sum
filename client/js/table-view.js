@@ -11,11 +11,13 @@ class TableView {
     this.initCurrentCell();
   	this.renderTable();
     this.attachEventHandlers();
+
   }
 
   initDomReferences() {
   	this.headerRowEle = document.querySelector('THEAD TR');
     this.bodyEle = document.querySelector('TBODY');
+    this.formulaBarEle = document.querySelector('#formula-bar');
   }
 
   renderTable() {
@@ -25,6 +27,17 @@ class TableView {
 
   initCurrentCell() {
     this.currentCellLocation = { col:0, row:0 };
+    this.renderFormulaBar();
+  }
+
+  normalizeValueForRendering(value) {
+    return value || '';
+  }
+
+  renderFormulaBar() {
+    const currCellValue = this.model.getValue(this.currentCellLocation);
+    this.formulaBarEle.value = this.normalizeValueForRendering(currCellValue);
+    this.formulaBarEle.focus(); 
   }
 
   renderTableHeader() {
@@ -73,6 +86,7 @@ class TableView {
     const row = evt.target.parentElement.rowIndex -1;
     this.currentCellLocation = { col:col, row:row };
     this.changeCellColor(evt);
+    this.renderFormulaBar();
   }
 }
 

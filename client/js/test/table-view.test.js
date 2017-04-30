@@ -28,6 +28,28 @@ describe('table-view', () => {
   });
   });	
 
+  describe('formula-bar', () => {
+  	it('updates value from the current cell', () => {
+  	  // set up the initial state
+      const model = new TableModel(6, 10);
+      const view = new TableView(model);
+      model.setValue({ col:3, row:2 }, '45');
+      view.init();
+
+      // inspect the initial state
+      const formulaBarEle = document.querySelector('#formula-bar');
+      expect(formulaBarEle.value).toBe('');
+
+      //simulate user action
+      trs = document.querySelectorAll('TBODY TR');
+      trs[2].cells[3].click();
+
+      //inspect the resulting action
+      expect(formulaBarEle.value).toBe('45');
+
+  	});
+  });
+
   describe('table-body', () => {
 
     it('highlights the current cell when clicked', () => {
