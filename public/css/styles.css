@@ -8,8 +8,13 @@ td {
   padding: 3px;
   height: 25px;
   min-width: 100px;
+  font-family: sans-serif;
 }
 
 .current-cell {
   background-color: pink
+}
+
+#formula-bar {
+  font-family: sans-serif;
 }

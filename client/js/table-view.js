@@ -68,6 +68,7 @@ class TableView {
 
   attachEventHandlers() {
     this.bodyEle.addEventListener('click', this.handleSheetClick.bind(this));
+    this.formulaBarEle.addEventListener('keyup', this.handleFormulaBarUpdate.bind(this));
   }
 
   isCurrentCell(col, row) {
@@ -87,6 +88,11 @@ class TableView {
     this.currentCellLocation = { col:col, row:row };
     this.changeCellColor(evt);
     this.renderFormulaBar();
+  }
+
+  handleFormulaBarUpdate(evt) {
+    this.model.setValue(this.currentCellLocation, this.formulaBarEle.value);
+    this.renderTableBody();
   }
 }
 
