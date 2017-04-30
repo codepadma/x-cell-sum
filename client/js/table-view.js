@@ -8,7 +8,9 @@ class TableView {
 
   init() {
   	this.initDomReferences();
+    this.initCurrentCell();
   	this.renderTable();
+    this.attachEventHandlers();
   }
 
   initDomReferences() {
@@ -19,6 +21,10 @@ class TableView {
   renderTable() {
   	this.renderTableHeader();
   	this.renderTableBody();
+  }
+
+  initCurrentCell() {
+    this.currentCellLocation = { col:0, row:0 };
   }
 
   renderTableHeader() {
@@ -36,12 +42,37 @@ class TableView {
         const position = {col:col, row:row};
         const value = this.model.getValue(position);
         const td = createTD(value);
+        if(this.isCurrentCell(col, row)) {
+          td.className = 'current-cell';
+        }
         tr.appendChild(td);
       }
       docFragment.appendChild(tr);
     }
     removeChildren(this.bodyEle);
     this.bodyEle.appendChild(docFragment);
+  }
+
+  attachEventHandlers() {
+    this.bodyEle.addEventListener('click', this.handleSheetClick.bind(this));
+  }
+
+  isCurrentCell(col, row) {
+    return this.currentCellLocation.col === col &&
+           this.currentCellLocation.row === row;
+  }
+
+  changeCellColor(evt) {
+    Array.from(document.getElementsByClassName('current-cell'))
+      .forEach((td) => td.className = '');
+    evt.target.className = 'current-cell';
+  }
+
+  handleSheetClick(evt) {
+    const col = evt.target.cellIndex;
+    const row = evt.target.parentElement.rowIndex -1;
+    this.currentCellLocation = { col:col, row:row };
+    this.changeCellColor(evt);
   }
 }
 
