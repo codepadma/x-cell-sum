@@ -4,9 +4,8 @@
   "description": "Small Spreadsheet Application",
   "main": "index.js",
   "scripts": {
-    "postinstall": "browserify client/js/app.js -o public/js/bundle.js",
+    "postinstall": "mkdir -p public/js;browserify client/js/app.js > public/js/bundle.js",
     "start": "node index.js",
-
     "build": "mkdir -p public/js; browserify client/js/app.js > public/js/bundle.js",
     "watch": "watchify client/js/app.js -o public/js/bundle.js",
     "test": "jest"
@@ -22,10 +21,8 @@
   },
   "homepage": "https://github.com/codepadma/x-cell-sum#readme",
   "dependencies": {
+    "browserify": "^14.3.0",
     "express": "^4.15.2"
-  },
-  "dependencies": {
-    "browserify": "^14.3.0"
   },
   "devDependencies": {
     "browserify": "^14.3.0",
