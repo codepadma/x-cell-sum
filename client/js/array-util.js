@@ -1,8 +1,3 @@
-/* const getRange = function(fromNum, toNum) {
-  return Array.from({length: toNum - fromNum + 1},
-  	(unused, i) => fromNum + i);
-}; */
-
 const getRange = function(fromNum, length) {
   return Array.from({length: length}, 
   	(unused, i) => i + fromNum);

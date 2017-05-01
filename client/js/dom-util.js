@@ -6,7 +6,7 @@ const removeChildren = function(parentEl) {
 
 const createEl = function(tagName) {
   return function(text) {
-  	const el = document.createElement(tagName);
+    const el = document.createElement(tagName);
     if (text) {
       el.textContent = text;
     }
@@ -17,7 +17,6 @@ const createEl = function(tagName) {
 const createTR = createEl('TR');
 const createTH = createEl('TH');
 const createTD = createEl('TD');
-
 
 module.exports = {
   removeChildren: removeChildren,
