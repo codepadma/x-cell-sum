@@ -22,3 +22,7 @@ td {
 #formula-bar {
   font-family: sans-serif;
 }
+
+.header {
+  background-color: lightgrey;
+}
