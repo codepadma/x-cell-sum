@@ -7,18 +7,17 @@ class TableView {
   }
 
   init() {
-  	this.initDomReferences();
+    this.initDomReferences();
     this.initCurrentCell();
-  	this.renderTable();
+    this.renderTable();
     this.attachEventHandlers();
-
   }
 
   initDomReferences() {
-    this.headerRowEle = document.querySelector('THEAD TR');
-    this.bodyEle = document.querySelector('TBODY');
-    this.formulaBarEle = document.querySelector('#formula-bar');
-    this.footEle = document.querySelector('TFOOT');
+    this.headerRowEl = document.querySelector('THEAD TR');
+    this.bodyEl = document.querySelector('TBODY');
+    this.formulaBarEl = document.querySelector('#formula-bar');
+    this.footEl = document.querySelector('TFOOT');
   }
 
   renderTable() {
@@ -38,15 +37,15 @@ class TableView {
 
   renderFormulaBar() {
     const currCellValue = this.model.getValue(this.currentCellLocation);
-    this.formulaBarEle.value = this.normalizeValueForRendering(currCellValue);
-    this.formulaBarEle.focus(); 
+    this.formulaBarEl.value = this.normalizeValueForRendering(currCellValue);
+    this.formulaBarEl.focus(); 
   }
 
   renderTableHeader() {
-    removeChildren(this.headerRowEle);
+    removeChildren(this.headerRowEl);
     getLetterRange('A', this.model.numOfCols)
       .map(colLabel => createTH(colLabel))
-      .forEach(th => this.headerRowEle.appendChild(th));
+      .forEach(th => this.headerRowEl.appendChild(th));
   }
 
   renderTableBody() {
@@ -64,12 +63,12 @@ class TableView {
       }
       docFragment.appendChild(tr);
     }
-    removeChildren(this.bodyEle);
-    this.bodyEle.appendChild(docFragment);
+    removeChildren(this.bodyEl);
+    this.bodyEl.appendChild(docFragment);
   }
 
   renderTableFoot() {
-    removeChildren(this.footEle);
+    removeChildren(this.footEl);
     const docFragment = document.createDocumentFragment();
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
@@ -81,7 +80,7 @@ class TableView {
       tr.appendChild(td);
     }
     docFragment.appendChild(tr);
-    this.footEle.appendChild(docFragment);
+    this.footEl.appendChild(docFragment);
     this.setFootColor();
   }
 
@@ -101,12 +100,12 @@ class TableView {
   }
 
   setFootColor() {
-    this.footEle.className = 'highlight-foot';
+    this.footEl.className = 'highlight-foot';
   }
 
   attachEventHandlers() {
-    this.bodyEle.addEventListener('click', this.handleSheetClick.bind(this));
-    this.formulaBarEle.addEventListener('keyup', this.handleFormulaBarUpdate.bind(this));
+    this.bodyEl.addEventListener('click', this.handleSheetClick.bind(this));
+    this.formulaBarEl.addEventListener('keyup', this.handleFormulaBarUpdate.bind(this));
   }
 
   isCurrentCell(col, row) {
@@ -129,7 +128,7 @@ class TableView {
   }
 
   handleFormulaBarUpdate(evt) {
-    this.model.setValue(this.currentCellLocation, this.formulaBarEle.value);
+    this.model.setValue(this.currentCellLocation, this.formulaBarEl.value);
     this.renderTableBody();
     this.renderTableFoot();
   }

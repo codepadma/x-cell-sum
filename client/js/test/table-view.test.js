@@ -11,26 +11,24 @@ describe('table-view', () => {
   });
 
   describe('table-header', () => {
-  	it('has valid number of Cols', () => {
-  	//set-up initial state
+    it('has valid number of Cols', () => {
+    //set-up initial state
       const numOfCols = 5;
       const numOfRows = 10;
       const model = new TableModel(numOfCols, numOfRows);
       const view = new TableView(model);
       view.init();
+      // inspect initial state
+      let tHeaders = document.querySelectorAll('THEAD TH');
+      expect(tHeaders.length).toBe(numOfCols);
 
-  	// inspect initial state
-  	  let tHeaders = document.querySelectorAll('THEAD TH');
-  	  expect(tHeaders.length).toBe(numOfCols);
-
-  	  let colLabels = Array.from(tHeaders).map(th => th.textContent);
-  	  expect(colLabels).toEqual(['A', 'B', 'C', 'D', 'E']);
+      let colLabels = Array.from(tHeaders).map(th => th.textContent);
+      expect(colLabels).toEqual(['A', 'B', 'C', 'D', 'E']);
   });
   });	
 
   describe('table-foot', () => {
-    it('table foot has the sum of col values', () => {
-      //set-up initial state
+    it('it displays the sum of column values in the table footer', () => {
       const numOfCols = 5;
       const numOfRows = 10;
       const model = new TableModel(numOfCols, numOfRows);
@@ -42,13 +40,12 @@ describe('table-view', () => {
 
       let tfoot = document.querySelector('TFOOT');
       expect(tfoot.rows[0].cells[3].textContent).toBe('55');
-
     });
   });
 
   describe('formula-bar', () => {
 
-  	it('makes changes to the value of the current cell', () => {
+    it('makes changes to the value of the current cell', () => {
       // set up initial state
       const model = new TableModel(6, 10);
       const view = new TableView(model);
@@ -70,8 +67,8 @@ describe('table-view', () => {
       expect(td.textContent).toBe('100');
   	});
 
-  	it('updates value from the current cell', () => {
-  	  // set up the initial state
+    it('updates value from the current cell', () => {
+      // set up the initial state
       const model = new TableModel(6, 10);
       const view = new TableView(model);
       model.setValue({ col:3, row:2 }, '45');
@@ -87,8 +84,7 @@ describe('table-view', () => {
 
       //inspect the resulting action
       expect(formulaBarEle.value).toBe('45');
-
-  	});
+    });
   });
 
   describe('table-body', () => {
@@ -119,8 +115,8 @@ describe('table-view', () => {
       const view = new TableView(model);
       view.init();
       // inspect initial state
-  	  let ths = document.querySelectorAll('THEAD TH');
-  	  expect(ths.length).toBe(numOfCols);
+      let ths = document.querySelectorAll('THEAD TH');
+      expect(ths.length).toBe(numOfCols);
     });
 
     it('fills in values from the model', () => {
@@ -137,5 +133,4 @@ describe('table-view', () => {
       expect(trs[2].cells[3].textContent).toBe('45');
     });
   });
-
 });
