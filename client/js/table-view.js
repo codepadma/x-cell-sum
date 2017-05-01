@@ -73,7 +73,11 @@ class TableView {
     const docFragment = document.createDocumentFragment();
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
-      const td = createTD((this.calculateColSum(col)).toString());
+      let sum = this.calculateColSum(col);
+      if(sum === 0) {
+        sum = '';
+      }
+      const td = createTD(sum.toString());
       tr.appendChild(td);
     }
     docFragment.appendChild(tr);
