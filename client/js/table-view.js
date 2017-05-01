@@ -15,15 +15,15 @@ class TableView {
   }
 
   initDomReferences() {
-  	this.headerRowEle = document.querySelector('THEAD TR');
+    this.headerRowEle = document.querySelector('THEAD TR');
     this.bodyEle = document.querySelector('TBODY');
     this.formulaBarEle = document.querySelector('#formula-bar');
     this.footEle = document.querySelector('TFOOT');
   }
 
   renderTable() {
-  	this.renderTableHeader();
-  	this.renderTableBody();
+    this.renderTableHeader();
+    this.renderTableBody();
     this.renderTableFoot();
   }
 
