@@ -129,7 +129,6 @@ class TableView {
   }
 
   handleFormulaBarUpdate(evt) {
-    console.log(this.currentCellLocation);
     this.model.setValue(this.currentCellLocation, this.formulaBarEle.value);
     this.renderTableBody();
     this.renderTableFoot();

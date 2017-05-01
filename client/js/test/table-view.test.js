@@ -28,6 +28,24 @@ describe('table-view', () => {
   });
   });	
 
+  describe('table-foot', () => {
+    it('table foot has the sum of col values', () => {
+      //set-up initial state
+      const numOfCols = 5;
+      const numOfRows = 10;
+      const model = new TableModel(numOfCols, numOfRows);
+      const view = new TableView(model);
+      model.setValue({ col:3, row:2 }, '5');
+      model.setValue({ col:3, row:3 }, '5');
+      model.setValue({ col:3, row:4 }, '45');
+      view.init();
+
+      let tfoot = document.querySelector('TFOOT');
+      expect(tfoot.rows[0].cells[3].textContent).toBe('55');
+
+    });
+  });
+
   describe('formula-bar', () => {
 
   	it('makes changes to the value of the current cell', () => {
