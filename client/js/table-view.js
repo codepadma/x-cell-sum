@@ -18,11 +18,13 @@ class TableView {
   	this.headerRowEle = document.querySelector('THEAD TR');
     this.bodyEle = document.querySelector('TBODY');
     this.formulaBarEle = document.querySelector('#formula-bar');
+    this.footEle = document.querySelector('TFOOT');
   }
 
   renderTable() {
   	this.renderTableHeader();
   	this.renderTableBody();
+    this.renderTableFoot();
   }
 
   initCurrentCell() {
@@ -64,6 +66,38 @@ class TableView {
     }
     removeChildren(this.bodyEle);
     this.bodyEle.appendChild(docFragment);
+  }
+
+  renderTableFoot() {
+    removeChildren(this.footEle);
+    const docFragment = document.createDocumentFragment();
+    const tr = createTR();
+    for(let col = 0; col < this.model.numOfCols; col++) {
+      const td = createTD((this.calculateColSum(col)).toString());
+      tr.appendChild(td);
+    }
+    docFragment.appendChild(tr);
+    this.footEle.appendChild(docFragment);
+    this.setFootColor();
+  }
+
+  calculateColSum(col) {
+    const trs = document.querySelectorAll('TBODY TR');
+    return Array.from(trs)
+      .map(function(tr) { 
+        const cellVal = parseInt(tr.cells[col].textContent, 10);
+        if(!Number.isNaN(cellVal)) {
+          return cellVal;
+        }
+        else {
+          return 0;
+        }
+      })
+      .reduce((prev, cellVal) => prev + cellVal);
+  }
+
+  setFootColor() {
+    this.footEle.className = 'highlight-foot';
   }
 
   attachEventHandlers() {

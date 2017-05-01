@@ -15,6 +15,10 @@ td {
   background-color: pink
 }
 
+.highlight-foot {
+  background-color: chartreuse;
+}
+
 #formula-bar {
   font-family: sans-serif;
 }
