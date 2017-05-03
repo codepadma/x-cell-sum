@@ -27,5 +27,5 @@ module.exports = {
   createTR: createTR,
   createTH: createTH,
   createTD: createTD,
-  getTableRows: getRowsFromTable
+  getTableRows: getTableRows
 }
