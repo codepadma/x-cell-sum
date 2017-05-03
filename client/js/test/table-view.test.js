@@ -24,7 +24,7 @@ describe('table-view', () => {
       let colLabels = Array.from(tHeaders).map(th => th.textContent);
       expect(colLabels).toEqual(['A', 'B', 'C', 'D', 'E']);
   });
-  });	
+  }); 
 
   describe('table-foot', () => {
 
@@ -90,7 +90,7 @@ describe('table-view', () => {
       trs = document.querySelectorAll('TBODY TR');
       td = trs[2].cells[3];
       expect(td.textContent).toBe('100');
-  	});
+    });
 
     it('updates value from the current cell', () => {
       // set up the initial state

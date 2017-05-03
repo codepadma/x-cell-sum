@@ -1,6 +1,6 @@
 const getRange = function(fromNum, length) {
   return Array.from({length: length}, 
-  	(unused, i) => i + fromNum);
+    (unused, i) => i + fromNum);
 };
 
 const getLetterRange = function(firstLetter = 'A', noOfLetters) {
