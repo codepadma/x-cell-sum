@@ -1,4 +1,4 @@
-const { removeChildren, createTH, createTR, createTD } = require('./dom-util');
+const { removeChildren, createTH, createTR, createTD, getTableRows } = require('./dom-util');
 const { getLetterRange } = require('./array-util');
 
 class TableView {
@@ -85,8 +85,7 @@ class TableView {
   }
 
   calculateColSum(col) {
-    const trs = document.querySelectorAll('TBODY TR');
-    return Array.from(trs)
+    return getTableRows()
       .map(function(tr) { 
         const cellVal = parseInt(tr.cells[col].textContent, 10);
         if(!Number.isNaN(cellVal)) {

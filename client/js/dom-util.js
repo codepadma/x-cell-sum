@@ -14,6 +14,10 @@ const createEl = function(tagName) {
   }
 };
 
+const getTableRows = function() {
+  return Array.from(document.querySelectorAll('TBODY TR'));
+}
+
 const createTR = createEl('TR');
 const createTH = createEl('TH');
 const createTD = createEl('TD');
@@ -22,5 +26,6 @@ module.exports = {
   removeChildren: removeChildren,
   createTR: createTR,
   createTH: createTH,
-  createTD: createTD
+  createTD: createTD,
+  getTableRows: getRowsFromTable
 }
