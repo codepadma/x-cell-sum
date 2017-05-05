@@ -72,8 +72,11 @@ class TableView {
     const docFragment = document.createDocumentFragment();
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
-      const colVals = this.fetchColumnVals(col);
-      const sum = computeColumnSum(colVals);
+      const colVals = this.fetchColumnVals.bind(this, col);
+      let sum = this.computeColumnSum(colVals()); 
+      if (sum === 0) {
+        sum = '';
+      }
       const td = createTD(sum.toString());
       tr.appendChild(td);
     }
@@ -85,8 +88,8 @@ class TableView {
   fetchColumnVals(colIndex) {
     return getTableRows()
       .map((tr) => {
-        const cellVal = parseInt(tr.cells[col].textContent, 10); 
-        return validateColumnVals(cellVal);
+        const cellVal = parseInt(tr.cells[colIndex].textContent, 10); 
+        return this.validateColumnVals(cellVal);
       });
   }
 
