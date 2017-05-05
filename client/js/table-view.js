@@ -73,9 +73,9 @@ class TableView {
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
       const colVals = this.fetchColumnVals.bind(this, col);
-      let sum = this.computeColumnSum(colVals()); 
-      if (sum === 0) {
-        sum = '';
+      let sum = '';
+      if (colVals().length > 0) {
+        sum = this.computeColumnSum(colVals()); 
       }
       const td = createTD(sum.toString());
       tr.appendChild(td);
@@ -90,11 +90,12 @@ class TableView {
       .map((tr) => {
         const cellVal = parseInt(tr.cells[colIndex].textContent, 10); 
         return this.validateColumnVals(cellVal);
-      });
+      })
+      .filter((cellVal) => cellVal !== '');
   }
 
   validateColumnVals(cellVal) {
-    return (!Number.isNaN(cellVal)) ? cellVal : 0;
+    return (!Number.isNaN(cellVal)) ? cellVal : '';
   }
 
   computeColumnSum(colVals) {
