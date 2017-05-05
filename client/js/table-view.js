@@ -72,10 +72,8 @@ class TableView {
     const docFragment = document.createDocumentFragment();
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
-      let sum = this.calculateColSum(col);
-      if(sum === 0) {
-        sum = '';
-      }
+      const colVals = this.fetchColumnVals(col);
+      const sum = computeColumnSum(colVals);
       const td = createTD(sum.toString());
       tr.appendChild(td);
     }
@@ -84,18 +82,20 @@ class TableView {
     this.setFootColor();
   }
 
-  calculateColSum(col) {
+  fetchColumnVals(colIndex) {
     return getTableRows()
-      .map(function(tr) { 
-        const cellVal = parseInt(tr.cells[col].textContent, 10);
-        if(!Number.isNaN(cellVal)) {
-          return cellVal;
-        }
-        else {
-          return 0;
-        }
-      })
-      .reduce((prev, cellVal) => prev + cellVal);
+      .map((tr) => {
+        const cellVal = parseInt(tr.cells[col].textContent, 10); 
+        return validateColumnVals(cellVal);
+      });
+  }
+
+  validateColumnVals(cellVal) {
+    return (!Number.isNaN(cellVal)) ? cellVal : 0;
+  }
+
+  computeColumnSum(colVals) {
+    return colVals.reduce((sum, cellVal) => sum + cellVal);
   }
 
   setFootColor() {
