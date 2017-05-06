@@ -1,4 +1,4 @@
-const { removeChildren, createTH, createTR, createTD, getTableRows } = require('./dom-util');
+const { removeChildren, createTH, createTR, createTD, getTableBodyRows } = require('./dom-util');
 const { getLetterRange } = require('./array-util');
 
 class TableView {
@@ -17,13 +17,13 @@ class TableView {
     this.headerRowEl = document.querySelector('THEAD TR');
     this.bodyEl = document.querySelector('TBODY');
     this.formulaBarEl = document.querySelector('#formula-bar');
-    this.footEl = document.querySelector('TFOOT');
+    this.footerEl = document.querySelector('TFOOT');
   }
 
   renderTable() {
     this.renderTableHeader();
     this.renderTableBody();
-    this.renderTableFoot();
+    this.renderTableFooter();
   }
 
   initCurrentCell() {
@@ -67,8 +67,8 @@ class TableView {
     this.bodyEl.appendChild(docFragment);
   }
 
-  renderTableFoot() {
-    removeChildren(this.footEl);
+  renderTableFooter() {
+    removeChildren(this.footerEl);
     const docFragment = document.createDocumentFragment();
     const tr = createTR();
     for(let col = 0; col < this.model.numOfCols; col++) {
@@ -81,12 +81,12 @@ class TableView {
       tr.appendChild(td);
     }
     docFragment.appendChild(tr);
-    this.footEl.appendChild(docFragment);
-    this.setFootColor();
+    this.footerEl.appendChild(docFragment);
+    this.footerEl.className = 'highlight-footer';
   }
 
   fetchColumnVals(colIndex) {
-    return getTableRows()
+    return getTableBodyRows()
       .map((tr) => {
         const cellVal = parseInt(tr.cells[colIndex].textContent, 10); 
         return this.validateColumnVals(cellVal);
@@ -95,15 +95,11 @@ class TableView {
   }
 
   validateColumnVals(cellVal) {
-    return (!Number.isNaN(cellVal)) ? cellVal : '';
+    return !Number.isNaN(cellVal) ? cellVal : '';
   }
 
   computeColumnSum(colVals) {
     return colVals.reduce((sum, cellVal) => sum + cellVal);
-  }
-
-  setFootColor() {
-    this.footEl.className = 'highlight-foot';
   }
 
   attachEventHandlers() {
@@ -133,7 +129,7 @@ class TableView {
   handleFormulaBarUpdate(evt) {
     this.model.setValue(this.currentCellLocation, this.formulaBarEl.value);
     this.renderTableBody();
-    this.renderTableFoot();
+    this.renderTableFooter();
   }
 }
 
