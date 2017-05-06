@@ -1,4 +1,4 @@
-const { removeChildren, createTH, createTR, createTD } = require('./dom-util');
+const { removeChildren, createTH, createTR, createTD, getTableBodyRows } = require('./dom-util');
 const { getLetterRange } = require('./array-util');
 
 class TableView {
@@ -7,22 +7,23 @@ class TableView {
   }
 
   init() {
-  	this.initDomReferences();
+    this.initDomReferences();
     this.initCurrentCell();
-  	this.renderTable();
+    this.renderTable();
     this.attachEventHandlers();
-
   }
 
   initDomReferences() {
-  	this.headerRowEle = document.querySelector('THEAD TR');
-    this.bodyEle = document.querySelector('TBODY');
-    this.formulaBarEle = document.querySelector('#formula-bar');
+    this.headerRowEl = document.querySelector('THEAD TR');
+    this.bodyEl = document.querySelector('TBODY');
+    this.formulaBarEl = document.querySelector('#formula-bar');
+    this.footerEl = document.querySelector('TFOOT');
   }
 
   renderTable() {
-  	this.renderTableHeader();
-  	this.renderTableBody();
+    this.renderTableHeader();
+    this.renderTableBody();
+    this.renderTableFooter();
   }
 
   initCurrentCell() {
@@ -36,15 +37,15 @@ class TableView {
 
   renderFormulaBar() {
     const currCellValue = this.model.getValue(this.currentCellLocation);
-    this.formulaBarEle.value = this.normalizeValueForRendering(currCellValue);
-    this.formulaBarEle.focus(); 
+    this.formulaBarEl.value = this.normalizeValueForRendering(currCellValue);
+    this.formulaBarEl.focus(); 
   }
 
   renderTableHeader() {
-    removeChildren(this.headerRowEle);
+    removeChildren(this.headerRowEl);
     getLetterRange('A', this.model.numOfCols)
       .map(colLabel => createTH(colLabel))
-      .forEach(th => this.headerRowEle.appendChild(th));
+      .forEach(th => this.headerRowEl.appendChild(th));
   }
 
   renderTableBody() {
@@ -62,13 +63,48 @@ class TableView {
       }
       docFragment.appendChild(tr);
     }
-    removeChildren(this.bodyEle);
-    this.bodyEle.appendChild(docFragment);
+    removeChildren(this.bodyEl);
+    this.bodyEl.appendChild(docFragment);
+  }
+
+  renderTableFooter() {
+    removeChildren(this.footerEl);
+    const docFragment = document.createDocumentFragment();
+    const tr = createTR();
+    for(let col = 0; col < this.model.numOfCols; col++) {
+      const colVals = this.fetchColumnVals.bind(this, col);
+      let sum = '';
+      if (colVals().length > 0) {
+        sum = this.computeColumnSum(colVals()); 
+      }
+      const td = createTD(sum.toString());
+      tr.appendChild(td);
+    }
+    docFragment.appendChild(tr);
+    this.footerEl.appendChild(docFragment);
+    this.footerEl.className = 'highlight-footer';
+  }
+
+  fetchColumnVals(colIndex) {
+    return getTableBodyRows()
+      .map((tr) => {
+        const cellVal = parseInt(tr.cells[colIndex].textContent, 10); 
+        return this.validateColumnVals(cellVal);
+      })
+      .filter((cellVal) => cellVal !== '');
+  }
+
+  validateColumnVals(cellVal) {
+    return !Number.isNaN(cellVal) ? cellVal : '';
+  }
+
+  computeColumnSum(colVals) {
+    return colVals.reduce((sum, cellVal) => sum + cellVal);
   }
 
   attachEventHandlers() {
-    this.bodyEle.addEventListener('click', this.handleSheetClick.bind(this));
-    this.formulaBarEle.addEventListener('keyup', this.handleFormulaBarUpdate.bind(this));
+    this.bodyEl.addEventListener('click', this.handleSheetClick.bind(this));
+    this.formulaBarEl.addEventListener('keyup', this.handleFormulaBarUpdate.bind(this));
   }
 
   isCurrentCell(col, row) {
@@ -91,9 +127,9 @@ class TableView {
   }
 
   handleFormulaBarUpdate(evt) {
-    console.log(this.currentCellLocation);
-    this.model.setValue(this.currentCellLocation, this.formulaBarEle.value);
+    this.model.setValue(this.currentCellLocation, this.formulaBarEl.value);
     this.renderTableBody();
+    this.renderTableFooter();
   }
 }
 

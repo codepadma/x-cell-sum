@@ -15,6 +15,14 @@ td {
   background-color: pink
 }
 
+.highlight-footer {
+  background-color: chartreuse;
+}
+
 #formula-bar {
   font-family: sans-serif;
+}
+
+.header {
+  background-color: lightgrey;
 }
